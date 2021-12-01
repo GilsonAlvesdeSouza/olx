@@ -1,6 +1,13 @@
 import { connect } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import Routes from './Routes';
+
 function App() {
-  return <div>...</div>;
+  return (
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  );
 }
 
 const mapStateToProps = (state) => {
