@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import './App.css';
 import Routes from "./Routes";
 import  * as C  from "./components";
 
