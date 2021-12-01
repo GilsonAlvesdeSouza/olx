@@ -1,11 +1,16 @@
 import { connect } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import Routes from './Routes';
+import Routes from "./Routes";
+import  * as C  from "./components";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes />
+      <C.Template>
+        <C.Header />
+        <Routes />
+        <C.Footer />
+      </C.Template>
     </BrowserRouter>
   );
 }
