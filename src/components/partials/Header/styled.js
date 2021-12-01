@@ -10,16 +10,15 @@ export const HeaderArea = styled.div`
     margin: auto;
     display: flex;
   }
+  a {
+    text-decoration: none;
+  }
 
   .logo {
     flex: 1;
     display: flex;
     align-items: center;
-    height: 3.75rem;
-
-    a {
-      text-decoration: none;
-    }
+    height: 60px;
 
     .logo-1,
     .logo-2,
@@ -36,6 +35,48 @@ export const HeaderArea = styled.div`
     }
     .logo-3 {
       color: #0000ff;
+    }
+  }
+
+  nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    ul {
+      display: flex;
+      align-items: center;
+      height: 40px;
+    }
+
+    li {
+      margin: 0 20px;
+
+      a {
+        color: #000;
+        font-size: 0.875rem;
+
+        :hover {
+          color: #999;
+        }
+
+        &.button {
+          background-color: #ff8100;
+          border-radius: 10px;
+          color: #fff;
+          padding: 5px 10px;
+
+          :hover {
+            background-color: #e57706;
+          }
+        }
+      }
     }
   }
 `;
