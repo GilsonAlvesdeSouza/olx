@@ -1,5 +1,5 @@
 import { Switch, Route } from "react-router-dom";
-import {Home, About} from './pages';
+import {Home, About, NotFound} from './pages';
 
 function Routes(props) {
   return (
@@ -9,6 +9,9 @@ function Routes(props) {
       </Route>
       <Route path="/about">
         <About />
+      </Route>
+      <Route>
+        <NotFound />
       </Route>
     </Switch>
   );
