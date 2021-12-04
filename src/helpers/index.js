@@ -1,3 +1,4 @@
-import { isLogged } from "./AuthHandler";
+import { isLogged, doLogin } from "./AuthHandler";
+import OlxAPI from "./OlxAPI";
 
-export { isLogged };
+export { isLogged, doLogin, OlxAPI };

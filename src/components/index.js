@@ -1,4 +1,4 @@
-import { Template, PageContainer, PageTitle, PageBody } from "./MainComponents";
+import { Template, PageContainer, PageTitle, PageBody, ErrorMessage } from "./MainComponents";
 import Footer from "./partials/Footer";
 import Header from "./partials/Header";
 
@@ -8,4 +8,5 @@ export { Template,
     PageBody,
     Footer,
     Header,
+    ErrorMessage,
  };
