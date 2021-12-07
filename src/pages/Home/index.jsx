@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { PageContainer, AddItem } from "../../components";
+import { PageContainer, AdItem } from "../../components";
 import { OlxAPI } from "../../helpers";
 import { PageArea, SearchArea } from "./styled";
 
@@ -58,7 +58,7 @@ function Home() {
 
   const handleRecentsAds = () => {
     return adList.map((item, key) => (
-      <AddItem key={`adList-${key}`} data={item} />
+      <AdItem key={`adList-${key}`} data={item} />
     ));
   };
 
