@@ -24,19 +24,17 @@ function Signin() {
   }, []);
 
   const handleStateOption = () => {
-    return stateList.map((item, key) => {
-                  return (
-                    <option value={item._id} key={`stateList-${key}`}>
-                      {item.name}
-                    </option>
-                  );
-                })
-  }
+    return stateList.map((item, key) => (
+      <option value={item._id} key={`stateList-${key}`}>
+        {item.name}
+      </option>
+    ));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisable(true);
-    setError('');
+    setError("");
 
     if (password !== confirmPassword) {
       setError("Senha e Confirmar Senha são diferentes");

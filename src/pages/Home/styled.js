@@ -13,34 +13,62 @@ export const SearchArea = styled.div`
     display: flex;
 
     form {
+      flex: 1;
+      display: flex;
+
+      input,
+      select {
+        height: 40px;
+        border: 0;
+        border-radius: 5px;
+        outline: 0;
+        font-size: 0.938rem;
+        color: #000;
+        margin-right: 20px;
+        background-color: #fff;
+      }
+
+      input {
         flex: 1;
-        display: flex;
+        padding: 0 10px;
+      }
 
-        input, select{
-           height: 40px;
-           border: 0;
-           border-radius: 5px;
-           outline: 0;
-           font-size: 0.938rem;
-           color: #000;
-           margin-right: 20px;
-        }
+      button {
+        background-color: #49aeef;
+        font-size: 0.938rem;
+        border: 0;
+        border-radius: 5px;
+        color: #fff;
+        height: 40px;
+        padding: 0 20px;
+        cursor: pointer;
+      }
+    }
+  }
 
-        input{
-            flex: 1;
-            padding: 0 10px;
-        }
+  .categoryList {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
 
-        button{
-            background-color: #49AEEF;
-            font-size: 0.938rem;
-            border: 0;
-            border-radius: 5px;
-            color: #FFF;
-            height: 40px;
-            padding: 0 20px;
-            cursor: pointer;
-        }
+    .categoryItem {
+      width: 25%;
+      display: flex;
+      align-items: center;
+      color: #000;
+      text-decoration: none;
+      height: 50px;
+      margin-bottom: 10px;
+
+      :hover {
+        color: #999;
+      }
+
+      img {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+      }
     }
   }
 `;
