@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { PageContainer } from "../../components";
+import { PageContainer, AddItem } from "../../components";
 import { OlxAPI } from "../../helpers";
 import { PageArea, SearchArea } from "./styled";
 
 function Home() {
   const [stateList, setStateList] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [adList, setAdList] = useState([]);
 
   useEffect(() => {
     let api = OlxAPI();
@@ -21,8 +22,17 @@ function Home() {
       setCategories(cats);
     };
 
+    const getRecentAds = async () => {
+      const json = await api.getAds({
+        sort: "desc",
+        limit: 8,
+      });
+      setAdList(json.ads);
+    };
+
     getStates();
     getCategories();
+    getRecentAds();
   }, []);
 
   const handleStateOption = () => {
@@ -35,10 +45,20 @@ function Home() {
 
   const handleCategories = () => {
     return categories.map((item, key) => (
-      <Link key={`categories-${key}`} to={`/ads?cats=${item.slug}`} className="categoryItem">
+      <Link
+        key={`categories-${key}`}
+        to={`/ads?cats=${item.slug}`}
+        className="categoryItem"
+      >
         <img src={item.img} alt="" />
         <span>{item.name}</span>
       </Link>
+    ));
+  };
+
+  const handleRecentsAds = () => {
+    return adList.map((item, key) => (
+      <AddItem key={`adList-${key}`} data={item} />
     ));
   };
 
@@ -62,7 +82,11 @@ function Home() {
 
       <PageContainer>
         <PageArea>
-          <h2>Página inicial</h2>
+          <h2>Anúncios Recentes</h2>
+          <div className="list">{handleRecentsAds()}</div>
+          <Link to="/ads" className="seeAllLink">Ver Todos</Link>
+          <hr/>
+          The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
         </PageArea>
       </PageContainer>
     </>

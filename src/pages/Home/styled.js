@@ -52,6 +52,7 @@ export const SearchArea = styled.div`
     margin-top: 20px;
 
     .categoryItem {
+      justify-content: center;
       width: 25%;
       display: flex;
       align-items: center;
@@ -72,4 +73,21 @@ export const SearchArea = styled.div`
     }
   }
 `;
-export const PageArea = styled.div``;
+export const PageArea = styled.div`
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .seeAllLink {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+  }
+`;
