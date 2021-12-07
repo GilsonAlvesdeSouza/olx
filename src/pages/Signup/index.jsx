@@ -1,12 +1,12 @@
 import { PageArea } from "./styled";
 import { PageContainer, PageTitle, ErrorMessage } from "../../components";
 import { useState, useEffect } from "react";
-import { OlxAPI } from "../../helpers";
+import { OlxAPI, doLogin } from "../../helpers";
 
 function Signin() {
   const api = OlxAPI();
   const [name, setName] = useState("");
-  const [stateLoc, setStateLoc] = useState("");
+  const [state, setState] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,16 +36,23 @@ function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisable(true);
+    setError('');
 
-    // const json = await api.login(email, password);
+    if (password !== confirmPassword) {
+      setError("Senha e Confirmar Senha são diferentes");
+      setDisable(false);
+      return;
+    }
 
-    // if (json.error) {
-    //   setError(json.error);
-    // } else {
-    //   doLogin(json.token, rememberPassword);
-    //   window.location.href = "/";
-    // }
-    // setDisable(false);
+    const json = await api.register(name, state, email, password);
+
+    if (json.error) {
+      setError(json.error);
+    } else {
+      doLogin(json.token);
+      window.location.href = "/";
+    }
+    setDisable(false);
   };
 
   return (
@@ -58,7 +65,7 @@ function Signin() {
             <div className="area-title">Nome Completo </div>
             <div className="area-input">
               <input
-                type="email"
+                type="text"
                 required
                 placeholder="Fulano de Souza"
                 disabled={disable}
@@ -71,8 +78,8 @@ function Signin() {
             <div className="area-title">Estado </div>
             <div className="area-input">
               <select
-                value={stateLoc}
-                onChange={(e) => setStateLoc(e.target.value)}
+                value={state}
+                onChange={(e) => setState(e.target.value)}
                 required
               >
                 <option value="">Escolha uma opção</option>
