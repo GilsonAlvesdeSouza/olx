@@ -40,7 +40,7 @@ const apiFetchGet = async (endpoint, body = []) => {
 
   const res = await fetch(`${BASE_API+endpoint}?${qs.stringify(body)}`);
 
-  const json = await res.json;
+  const json = await res.json();
 
   if (json.notallowed) {
     window.location.href = "/signin";
@@ -55,6 +55,10 @@ const OlxAPI = () => {
     login: async (email, password) => {
       const json = await apiFetchPost("/user/signin", { email, password });
       return json;
+    },
+    getStates: async () => {
+        const json = await apiFetchGet('/states');
+        return json.states;
     },
   };
 };

@@ -1,5 +1,5 @@
 import { Switch, Route } from "react-router-dom";
-import { Home, About, NotFound, Signin } from "./pages";
+import { Home, About, NotFound, Signin, Signup } from "./pages";
 
 function Routes(props) {
   return (
@@ -12,6 +12,9 @@ function Routes(props) {
       </Route>
       <Route exact path="/signin">
         <Signin />
+      </Route>
+      <Route exact path="/signup">
+        <Signup />
       </Route>
       <Route>
         <NotFound />
