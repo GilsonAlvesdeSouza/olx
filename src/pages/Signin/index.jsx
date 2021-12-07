@@ -11,12 +11,6 @@ function Signin() {
   const [disable, setDisable] = useState(false);
   const [error, setError] = useState("");
 
-  const clearAllInputs = () => {
-    setEmail("");
-    setPassword("");
-    setRememberPassword("");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisable(true);
