@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import 'react-slideshow-image/dist/styles.css';
+import {Slide} from "react-slideshow-image"
 import { OlxAPI, formater } from "../../helpers";
 import { PageArea } from "./styled";
 import { PageContainer } from "../../components";
@@ -21,12 +23,27 @@ function AdPage() {
     getInfo(id);
   }, [id]);
 
+  const handleSlideImages=()=>{
+      return info.images.map((item, key) =>(
+          <div key={`img-${key}`} className="each-slide">
+              <img src={item} alt="" />
+          </div>
+      ) );
+  };
+
   return (
     <PageContainer>
       <PageArea>
         <div className="left-side">
           <div className="box">
-            <div className="ad-image">{loading && <Fake height="300" />}</div>
+            <div className="ad-image">
+                {loading && <Fake height="300" />}
+                {info.images && 
+                <Slide>
+                    {handleSlideImages()}
+                </Slide>
+                }
+                </div>
             <div className="ad-info">
               <div className="ad-name">
                 {loading && <Fake />}
