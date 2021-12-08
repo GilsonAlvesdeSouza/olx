@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { FormaterCurrency } from "../../../helpers";
+import { formater } from "../../../helpers";
 import { Item } from "./styled";
 
 function AdItem({ data }) {
+  const format = formater();
   let price = data.priceNegotiable
     ? "Preço Negociável"
-    : FormaterCurrency(data.price);
+    : format.formatCurrency(data.price);
   return (
     <Item className="aditem">
       <Link to={`/ad/${data.id}`}>

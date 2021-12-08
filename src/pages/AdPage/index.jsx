@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { OlxAPI } from "../../helpers";
+import { OlxAPI, formater } from "../../helpers";
 import { PageArea } from "./styled";
 import { PageContainer } from "../../components";
 import { Fake } from "./styled";
 
 function AdPage() {
-  const api = OlxAPI();
+  const format = formater();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [Info, setInfo] = useState([]);
+  const [info, setInfo] = useState([]);
+
+  useEffect(() => {
+    let api = OlxAPI();
+    const getInfo = async (id) => {
+      const json = await api.getAd(id, true);
+      setInfo(json);
+      setLoading(false);
+    };
+    getInfo(id);
+  }, [id]);
 
   return (
     <PageContainer>
@@ -18,9 +28,18 @@ function AdPage() {
           <div className="box">
             <div className="ad-image">{loading && <Fake height="300" />}</div>
             <div className="ad-info">
-              <div className="ad-name">{loading && <Fake />}</div>
+              <div className="ad-name">
+                {loading && <Fake />}
+                {info.title && <h2>{info.title}</h2>}
+                {info.dateCreated && (
+                  <small>Criado em {format.formatDate(info.dateCreated)}</small>
+                )}
+              </div>
               <div className="ad-description">
                 {loading && <Fake height="100" />}
+                {info.description}
+                <hr />
+                {info.views && <small>Visualizações: {info.views}</small>}
               </div>
             </div>
           </div>

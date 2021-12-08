@@ -1,5 +1,5 @@
 import { isLogged, doLogin, doLogout } from "./AuthHandler";
 import OlxAPI from "./OlxAPI";
-import { FormaterCurrency } from "./Formater";
+import formater from "./Formater";
 
-export { isLogged, doLogin, OlxAPI, doLogout, FormaterCurrency };
+export { isLogged, doLogin, OlxAPI, doLogout, formater };
