@@ -1,7 +1,24 @@
 import styled from "styled-components";
 
+export const Fake = styled.div`
+  background-color: #ddd;
+  height: ${({ height }) => (height ? height : 20)}px;
+`;
+
 export const PageArea = styled.div`
   display: flex;
+  margin-top: 20px;
+
+  .box {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px #999;
+    margin-bottom: 20px;
+  }
+
+  .box--padding {
+    padding: 10px;
+  }
 
   .left-side {
     flex: 1;
@@ -11,7 +28,10 @@ export const PageArea = styled.div`
     }
 
     .ad-info {
+      padding: 10px;
+
       .ad-name {
+        margin-bottom: 20px;
       }
 
       .ad-description {
@@ -19,6 +39,6 @@ export const PageArea = styled.div`
     }
   }
   .right-side {
-      width: 250px;
+    width: 250px;
   }
 `;
