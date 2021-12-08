@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "react-slideshow-image/dist/styles.css";
 import { Slide } from "react-slideshow-image";
 import { OlxAPI, formater } from "../../helpers";
-import { PageArea } from "./styled";
-import { PageContainer } from "../../components";
-import { Fake } from "./styled";
+import { PageArea, OthersArea, Fake, BreadChumb } from "./styled";
+import { AdItem, PageContainer } from "../../components";
 
 function AdPage() {
   const format = formater();
@@ -31,8 +30,25 @@ function AdPage() {
     ));
   };
 
+  const handleListOthers = () => {
+    return info.others.map((item, key) => (
+      <AdItem key={`others-${key}`} data={item} />
+    ));
+  };
+
   return (
     <PageContainer>
+      {info.category && (
+        <BreadChumb>
+          <span>Você está aqui: </span>
+          <Link to="/"> Home</Link>/
+          <Link to={`/ads?state=${info.stateName}`}>{info.stateName}</Link>/
+          <Link to={`/ads?state=${info.stateName}&cat=${info.category.slug}`}>
+            {info.category.name}
+          </Link>
+          / <span>{info.title}</span>
+        </BreadChumb>
+      )}
       <PageArea>
         <div className="left-side">
           <div className="box">
@@ -87,6 +103,15 @@ function AdPage() {
           )}
         </div>
       </PageArea>
+      <hr />
+      <OthersArea>
+        {info.others && (
+          <>
+            <h2>Outras ofertas do vendedor</h2>
+            <div className="list">{handleListOthers()}</div>
+          </>
+        )}
+      </OthersArea>
     </PageContainer>
   );
 }

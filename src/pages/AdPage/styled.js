@@ -67,30 +67,60 @@ export const PageArea = styled.div`
     width: 250px;
 
     .price span {
-        color: #0000FF;
-        display: block;
-        font-size: 1.688rem;
-        font-weight: bold;
-    }
-    
-    .contactSellerLink{
-        background-color: #0000FF;
-        color: #FFF;
-        height: 30px;
-        border-radius: 5px;
-        box-shadow:  0px 0px 4px #999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        margin-bottom: 20px;
+      color: #0000ff;
+      display: block;
+      font-size: 1.688rem;
+      font-weight: bold;
     }
 
-    .created-by small{
-        display: block;
-        color: #999;
-        margin-top: 10px;
+    .contactSellerLink {
+      background-color: #0000ff;
+      color: #fff;
+      height: 30px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 4px #999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      margin-bottom: 20px;
     }
 
+    .created-by small {
+      display: block;
+      color: #999;
+      margin-top: 10px;
+    }
+  }
+`;
+
+export const OthersArea = styled.div`
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+
+    .aditem {
+      width: 25%;
+    }
+  }
+`;
+
+export const BreadChumb = styled.div`
+  font-size: 0.813rem;
+  margin-top: 20px;
+
+  a {
+    display: inline-block;
+    text-decoration: underline;
+    margin: 0 5px;
+    color: var(--color-link-breadchumb);
+  }
+
+  span {
+    color: var(--color-link-breadchumb);
   }
 `;
