@@ -2,6 +2,7 @@ import { Template, PageContainer, PageTitle, PageBody, ErrorMessage } from "./Ma
 import AdItem from "./partials/AdItem";
 import Footer from "./partials/Footer";
 import Header from "./partials/Header";
+import  RouteHandler  from "./RouteHandler";
 
 export { Template, 
     PageContainer, 
@@ -11,4 +12,5 @@ export { Template,
     ErrorMessage,
     Footer,
     Header,
+    RouteHandler,
  };

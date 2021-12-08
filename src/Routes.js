@@ -1,27 +1,30 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { Home, About, NotFound, Signin, Signup, AdPage } from "./pages";
-
+import {RouteHandler} from "./components"
 function Routes(props) {
   return (
     <Switch>
-      <Route exact path="/">
+      <RouteHandler exact path="/">
         <Home />
-      </Route>
-      <Route exact path="/about">
+      </RouteHandler>
+      <RouteHandler exact path="/about">
         <About />
-      </Route>
-      <Route exact path="/signin">
+      </RouteHandler>
+      <RouteHandler exact path="/signin">
         <Signin />
-      </Route>
-      <Route exact path="/signup">
+      </RouteHandler>
+      <RouteHandler exact path="/signup">
         <Signup />
-      </Route>
-      <Route exact path="/ad/:id">
+      </RouteHandler>
+      <RouteHandler exact path="/ad/:id">
         <AdPage />
-      </Route>
-      <Route>
+      </RouteHandler>
+      <RouteHandler private exact path="/post-an-ad">
+        <About />
+      </RouteHandler>
+      <RouteHandler>
         <NotFound />
-      </Route>
+      </RouteHandler>
     </Switch>
   );
 }
