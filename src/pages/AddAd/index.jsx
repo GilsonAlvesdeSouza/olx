@@ -1,27 +1,55 @@
+import { useEffect, useRef, useState } from "react";
+import MaskedInput from "react-text-mask";
+import { createNumberMask } from "text-mask-addons";
 import { PageArea } from "./styled";
 import { PageContainer, PageTitle, ErrorMessage } from "../../components";
-import { useRef, useState } from "react";
 import { OlxAPI } from "../../helpers";
 
 function AddAd() {
-  const api = OlxAPI();
-
   const fileField = useRef();
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const [price, setPrice] = useState("");
   const [priceNegotiable, setPriceNegotiable] = useState(false);
   const [desc, setDesc] = useState("");
-  const [disable, setDisable] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    let api = OlxAPI();
+    const getCategories = async () => {
+      const cats = await api.getCategories();
+      setCategories(cats);
+    };
+    getCategories();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setDisable(true);
-    setError("");   
-    setDisable(false);
+    setDisabled(true);
+    setError("");
+    setDisabled(false);
   };
+
+  const handleCategories = () => {
+    if (categories.length > -1) {
+      return categories.map((item, key) => (
+        <option key={`categories-${key}`} value={item._id}>
+          {item.name}
+        </option>
+      ));
+    }
+  };
+
+  const priceMask = createNumberMask({
+    prefix: "R$ ",
+    includeThousandsSeparator: true,
+    thousandsSeparatorSymbol: ".",
+    allowDecimal: true,
+    decimalSymbol: ",",
+  });
 
   return (
     <PageContainer>
@@ -33,10 +61,10 @@ function AddAd() {
             <div className="area-title">Titulo </div>
             <div className="area-input">
               <input
-                type="email"
+                type="text"
                 required
-                placeholder="exemplo@exemplo.com"
-                disabled={disable}
+                placeholder="Informe o titulo"
+                disabled={disabled}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -45,14 +73,27 @@ function AddAd() {
           <label className="area">
             <div className="area-title">Categoria </div>
             <div className="area-input">
-              <select name="" id="">
+              <select
+                disabled={disabled}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+              >
                 <option value="">Escolha uma categoria</option>
+                {handleCategories()}
               </select>
             </div>
           </label>
           <label className="area">
             <div className="area-title">Preço</div>
-            <div className="area-input">...</div>
+            <div className="area-input">
+              <MaskedInput
+                mask={priceMask}
+                placeholder="R$ 0,00"
+                disabled={disabled || priceNegotiable}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
           </label>
           <label className="area">
             <div className="area-title">Negociável</div>
@@ -60,7 +101,7 @@ function AddAd() {
               <input
                 className="float-left"
                 type="checkbox"
-                disabled={disable}
+                disabled={disabled}
                 checked={priceNegotiable}
                 onChange={() => setPriceNegotiable(!priceNegotiable)}
               />
@@ -70,29 +111,30 @@ function AddAd() {
             <div className="area-title">Descrição</div>
             <div className="area-input">
               <textarea
-                disabled={disable}
+                disabled={disabled}
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
+                placeholder="Descreva uma breve descrição"
               ></textarea>
             </div>
           </label>
 
           <label className="area">
             <div className="area-title">Imagens (1 ou mais) </div>
-            <div className="area-input">
+            <div className="area-input font-small">
               <input
                 type="file"
                 required
                 multiple
                 ref={fileField}
-                disabled={disable}
+                disabled={disabled}
               />
             </div>
           </label>
           <label className="area">
             <div className="area-title"></div>
             <div className="area-input">
-              <button disabled={disable}>Adicionar Anúncio</button>
+              <button disabled={disabled}>Adicionar Anúncio</button>
             </div>
           </label>
         </form>

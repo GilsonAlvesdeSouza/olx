@@ -44,16 +44,22 @@ export const PageArea = styled.div`
           }
         }
 
-        textarea{
+        textarea {
           height: 150px;
           resize: none;
         }
       }
 
       .input-checkbox {
-        input{
+        input {
           width: auto;
-        }      
+        }
+      }
+
+      .font-small {
+        input {
+          font-size: 0.750rem;
+        }
       }
 
       button {
