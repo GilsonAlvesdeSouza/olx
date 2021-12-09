@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import MaskedInput from "react-text-mask";
 import { createNumberMask } from "text-mask-addons";
 import { PageArea } from "./styled";
@@ -6,8 +7,9 @@ import { PageContainer, PageTitle, ErrorMessage } from "../../components";
 import { OlxAPI } from "../../helpers";
 
 function AddAd() {
+  const api = OlxAPI();
   const fileField = useRef();
-
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -30,6 +32,42 @@ function AddAd() {
     e.preventDefault();
     setDisabled(true);
     setError("");
+
+    let errors = [];
+
+    if (!title.trim()) {
+      errors.push("Titulo não informado");
+    }
+
+    if (!category) {
+      errors.push("Categoria não informada");
+    }
+
+    if (errors.length === 0) {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("price", price);
+      formData.append("priceneg", priceNegotiable);
+      formData.append("desc", desc);
+      formData.append("cat", category);
+
+      if (fileField.current.files.length > 0) {
+        for (const iterator of fileField.current.files) {
+          formData.append("img", iterator);
+        }
+      }
+
+      const json = await api.addAd(formData);
+
+      if (!json.error) {
+        history.push(`/ad/${json.id}`);
+        return;
+      } else {
+        setError(json.error);
+      }
+    } else {
+      setError(errors.join("/n"));
+    }
     setDisabled(false);
   };
 
@@ -84,18 +122,6 @@ function AddAd() {
             </div>
           </label>
           <label className="area">
-            <div className="area-title">Preço</div>
-            <div className="area-input">
-              <MaskedInput
-                mask={priceMask}
-                placeholder="R$ 0,00"
-                disabled={disabled || priceNegotiable}
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-          </label>
-          <label className="area">
             <div className="area-title">Negociável</div>
             <div className="area-input input-checkbox">
               <input
@@ -104,6 +130,18 @@ function AddAd() {
                 disabled={disabled}
                 checked={priceNegotiable}
                 onChange={() => setPriceNegotiable(!priceNegotiable)}
+              />
+            </div>
+          </label>
+          <label className="area">
+            <div className="area-title">Preço</div>
+            <div className="area-input">
+              <MaskedInput
+                mask={priceMask}
+                placeholder="R$ 0,00"
+                disabled={disabled || priceNegotiable}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
               />
             </div>
           </label>
