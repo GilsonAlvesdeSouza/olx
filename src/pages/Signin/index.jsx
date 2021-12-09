@@ -66,8 +66,8 @@ function Signin() {
                 className="float-left"
                 type="checkbox"
                 disabled={disable}
-                value={rememberPassword}
-                onChange={(e) => setRememberPassword(e.target.value)}
+                checked={rememberPassword}
+                onChange={() => setRememberPassword(!rememberPassword)}
               />
             </div>
           </label>

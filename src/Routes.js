@@ -1,5 +1,5 @@
 import { Switch } from "react-router-dom";
-import { Home, About, NotFound, Signin, Signup, AdPage } from "./pages";
+import { Home, About, NotFound, Signin, Signup, AdPage, AddAd } from "./pages";
 import {RouteHandler} from "./components"
 function Routes(props) {
   return (
@@ -20,7 +20,7 @@ function Routes(props) {
         <AdPage />
       </RouteHandler>
       <RouteHandler private exact path="/post-an-ad">
-        <About />
+        <AddAd />
       </RouteHandler>
       <RouteHandler>
         <NotFound />

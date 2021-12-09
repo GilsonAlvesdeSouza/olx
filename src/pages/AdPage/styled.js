@@ -111,7 +111,11 @@ export const OthersArea = styled.div`
 
 export const BreadChumb = styled.div`
   font-size: 0.813rem;
-  margin-top: 20px;
+  background-color: #FFF;
+  margin: 20px auto;
+  padding: 05px 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px #999;
 
   a {
     display: inline-block;
