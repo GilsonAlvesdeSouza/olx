@@ -1,6 +1,15 @@
 import { Switch } from "react-router-dom";
-import { Home, About, NotFound, Signin, Signup, AdPage, AddAd } from "./pages";
-import {RouteHandler} from "./components"
+import {
+  Home,
+  About,
+  NotFound,
+  Signin,
+  Signup,
+  AdPage,
+  AddAd,
+  Ads,
+} from "./pages";
+import { RouteHandler } from "./components";
 function Routes(props) {
   return (
     <Switch>
@@ -18,6 +27,9 @@ function Routes(props) {
       </RouteHandler>
       <RouteHandler exact path="/ad/:id">
         <AdPage />
+      </RouteHandler>
+      <RouteHandler exact path="/ads">
+        <Ads />
       </RouteHandler>
       <RouteHandler private exact path="/post-an-ad">
         <AddAd />

@@ -5,5 +5,6 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import AdPage from "./AdPage";
 import AddAd from "./AddAd";
+import Ads from "./Ads";
 
-export { About, Home, NotFound, Signin, Signup, AdPage, AddAd };
+export { About, Home, NotFound, Signin, Signup, AdPage, AddAd, Ads };
