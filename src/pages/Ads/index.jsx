@@ -4,11 +4,15 @@ import { PageContainer, AdItem } from "../../components";
 import { OlxAPI, useQueryString } from "../../helpers";
 import { PageArea } from "./styled";
 
+let timer;
+
 function Ads() {
   const history = useHistory();
+
   const [stateList, setStateList] = useState([]);
   const [categories, setCategories] = useState([]);
   const [adList, setAdList] = useState([]);
+  const [resultOpacity, setResultOpacity] = useState(1);
 
   const query = useQueryString();
   const initialQuery = (value) => {
@@ -19,50 +23,60 @@ function Ads() {
   const [state, setState] = useState(initialQuery("state"));
 
   useEffect(() => {
-
     let queryString = [];
 
-    if(q){
+    if (q) {
       queryString.push(`q=${q}`);
     }
 
-    if(cat){
-      queryString.push(`cat=${cat}`)
+    if (cat) {
+      queryString.push(`cat=${cat}`);
     }
 
-    if(state){
-      queryString.push(`state=${state}`)
+    if (state) {
+      queryString.push(`state=${state}`);
     }
 
     history.replace({
-      search: `?${queryString.join('&')}`
+      search: `?${queryString.join("&")}`,
     });
+
+    const getAddList = async () => {
+      let api = OlxAPI();
+      const json = await api.getAds({
+        sort: "desc",
+        limit: 9,
+        q,
+        cat,
+        state,
+      });
+      setAdList(json.ads);
+      setResultOpacity(1);
+    };
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(getAddList, 2000);
+    setResultOpacity(0.3);
   }, [q, cat, state, history]);
 
   useEffect(() => {
     let api = OlxAPI();
-
     const getStates = async () => {
       const states = await api.getStates();
       setStateList(states);
     };
+    getStates();
+  }, []);
 
+  useEffect(() => {
+    let api = OlxAPI();
     const getCategories = async () => {
       const cats = await api.getCategories();
       setCategories(cats);
     };
-
-    const getRecentAds = async () => {
-      const json = await api.getAds({
-        sort: "desc",
-        limit: 8,
-      });
-      setAdList(json.ads);
-    };
-
-    getStates();
     getCategories();
-    getRecentAds();
   }, []);
 
   const handleStateOption = () => {
@@ -86,11 +100,17 @@ function Ads() {
     ));
   };
 
-  // const handleRecentsAds = () => {
-  //   return adList.map((item, key) => (
-  //     <AdItem key={`adList-${key}`} data={item} />
-  //   ));
-  // };
+  const handleSearchFiltered = () => {
+    console.log(adList.length);
+
+    if (adList.length === 0) {
+      return <h4 className="resultNotfound">Nenhum resultado encontrado!</h4>;
+    } else {
+      return adList.map((item, key) => {
+        return <AdItem key={`adList-${key}`} data={item} />;
+      });
+    }
+  };
 
   return (
     <PageContainer>
@@ -117,7 +137,12 @@ function Ads() {
             <ul>{handleCategories()}</ul>
           </form>
         </div>
-        <div className="right Side">...</div>
+        <div className="rightSide">
+          <h2>Resultados</h2>
+          <div className="list" style={{ opacity: resultOpacity }}>
+            {handleSearchFiltered()}            
+          </div>
+        </div>
       </PageArea>
     </PageContainer>
   );

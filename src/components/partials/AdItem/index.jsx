@@ -7,6 +7,7 @@ function AdItem({ data }) {
   let price = data.priceNegotiable
     ? "Preço Negociável"
     : format.formatCurrency(data.price);
+
   return (
     <Item className="aditem">
       <Link to={`/ad/${data.id}`}>
