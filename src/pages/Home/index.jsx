@@ -47,7 +47,7 @@ function Home() {
     return categories.map((item, key) => (
       <Link
         key={`categories-${key}`}
-        to={`/ads?cats=${item.slug}`}
+        to={`/ads?cat=${item.slug}`}
         className="categoryItem"
       >
         <img src={item.img} alt="" />

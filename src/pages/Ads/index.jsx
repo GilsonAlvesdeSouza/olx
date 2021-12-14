@@ -5,6 +5,7 @@ import { OlxAPI, useQueryString } from "../../helpers";
 import { PageArea } from "./styled";
 
 function Ads() {
+  const history = useHistory();
   const [stateList, setStateList] = useState([]);
   const [categories, setCategories] = useState([]);
   const [adList, setAdList] = useState([]);
@@ -14,8 +15,29 @@ function Ads() {
     return query.get(value) != null ? query.get(value) : "";
   };
   const [q, setQ] = useState(initialQuery("q"));
-  const [cats, setCats] = useState(initialQuery("cats"));
+  const [cat, setCat] = useState(initialQuery("cat"));
   const [state, setState] = useState(initialQuery("state"));
+
+  useEffect(() => {
+
+    let queryString = [];
+
+    if(q){
+      queryString.push(`q=${q}`);
+    }
+
+    if(cat){
+      queryString.push(`cat=${cat}`)
+    }
+
+    if(state){
+      queryString.push(`state=${state}`)
+    }
+
+    history.replace({
+      search: `?${queryString.join('&')}`
+    });
+  }, [q, cat, state, history]);
 
   useEffect(() => {
     let api = OlxAPI();
@@ -55,7 +77,8 @@ function Ads() {
     return categories.map((item, key) => (
       <li
         key={`categories-${key}`}
-        className={cats === item.slug ? "categoryItem active" : "categoryItem"}
+        className={cat === item.slug ? "categoryItem active" : "categoryItem"}
+        onClick={() => setCat(item.slug)}
       >
         <img src={item.img} alt="" />
         <span>{item.name}</span>
@@ -63,11 +86,11 @@ function Ads() {
     ));
   };
 
-  const handleRecentsAds = () => {
-    return adList.map((item, key) => (
-      <AdItem key={`adList-${key}`} data={item} />
-    ));
-  };
+  // const handleRecentsAds = () => {
+  //   return adList.map((item, key) => (
+  //     <AdItem key={`adList-${key}`} data={item} />
+  //   ));
+  // };
 
   return (
     <PageContainer>
@@ -79,9 +102,14 @@ function Ads() {
               name="q"
               placeholder="O que você procura?"
               value={q}
+              onChange={(e) => setQ(e.target.value)}
             />
             <div className="filterName">Estado: </div>
-            <select name="state" value={state}>
+            <select
+              name="state"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            >
               <option value="">Escolha um estado</option>
               {handleStateOption()}
             </select>
