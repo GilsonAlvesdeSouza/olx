@@ -13,6 +13,8 @@ function Ads() {
   const [categories, setCategories] = useState([]);
   const [adList, setAdList] = useState([]);
   const [resultOpacity, setResultOpacity] = useState(1);
+  const [warningMessage, setWarningMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const query = useQueryString();
   const initialQuery = (value) => {
@@ -42,6 +44,9 @@ function Ads() {
     });
 
     const getAddList = async () => {
+      setWarningMessage("Carregando...");
+      setLoading(true);
+
       let api = OlxAPI();
       const json = await api.getAds({
         sort: "desc",
@@ -51,7 +56,11 @@ function Ads() {
         state,
       });
       setAdList(json.ads);
+      if (adList.length === 0) {
+        setWarningMessage("Nenhum resultado encontrado!");
+      }
       setResultOpacity(1);
+      setLoading(false);
     };
 
     if (timer) {
@@ -59,7 +68,7 @@ function Ads() {
     }
     timer = setTimeout(getAddList, 2000);
     setResultOpacity(0.3);
-  }, [q, cat, state, history]);
+  }, [q, cat, state, history, adList.length]);
 
   useEffect(() => {
     let api = OlxAPI();
@@ -101,15 +110,9 @@ function Ads() {
   };
 
   const handleSearchFiltered = () => {
-    console.log(adList.length);
-
-    if (adList.length === 0) {
-      return <h4 className="resultNotfound">Nenhum resultado encontrado!</h4>;
-    } else {
-      return adList.map((item, key) => {
-        return <AdItem key={`adList-${key}`} data={item} />;
-      });
-    }
+    return adList.map((item, key) => (
+      <AdItem key={`adList-${key}`} data={item} />
+    ));
   };
 
   return (
@@ -139,8 +142,12 @@ function Ads() {
         </div>
         <div className="rightSide">
           <h2>Resultados</h2>
+          {loading && <div className="listWarning">{warningMessage}</div>}
+          {!loading && adList.length === 0 && (
+            <div className="listWarning">{warningMessage}</div>
+          )}
           <div className="list" style={{ opacity: resultOpacity }}>
-            {handleSearchFiltered()}            
+            {handleSearchFiltered()}
           </div>
         </div>
       </PageArea>

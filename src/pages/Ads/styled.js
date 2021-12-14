@@ -60,22 +60,22 @@ export const PageArea = styled.div`
   .rightSide {
     flex: 1;
 
-    h2{
+    h2 {
       margin-top: 0;
       font-size: 1.125rem;
     }
 
-    .list{
+    .listWarning {
+      padding: 60px;
+      text-align: center;
+    }
+    
+    .list {
       display: flex;
       flex-wrap: wrap;
-      
-      .resultNotfound{
-        color: red;
-        margin: 0;
-      }
     }
 
-    .aditem{
+    .aditem {
       width: 33%;
     }
   }
