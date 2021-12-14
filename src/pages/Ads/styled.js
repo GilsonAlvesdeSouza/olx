@@ -6,7 +6,7 @@ export const PageArea = styled.div`
 
   .leftSide {
     width: 250px;
-    margin-right: 10px;
+    margin: 0px 10px;
 
     .filterName {
       font-size: 0.938rem;
@@ -22,6 +22,7 @@ export const PageArea = styled.div`
       font-size: 0.85rem;
       color: #000;
       padding: 10px;
+      border-radius: 5px;
     }
 
     ul,
@@ -41,8 +42,8 @@ export const PageArea = styled.div`
     }
 
     img {
-      width: 25px;
-      height: 25px;
+      width: 30px;
+      height: 30px;
       margin-right: 5px;
     }
 
@@ -66,17 +67,39 @@ export const PageArea = styled.div`
     }
 
     .listWarning {
-      padding: 60px;
+      padding: 30px;
       text-align: center;
     }
-    
+
     .list {
       display: flex;
       flex-wrap: wrap;
+
+      .aditem {
+        width: 33%;
+      }
     }
 
-    .aditem {
-      width: 33%;
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 10px 0;
+
+      .pageItem {
+        width: 60px;
+        height: 30px;
+        border: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+        cursor: pointer;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        padding: 5px;
+      }
     }
   }
 `;

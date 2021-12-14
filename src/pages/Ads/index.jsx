@@ -15,6 +15,8 @@ function Ads() {
   const [resultOpacity, setResultOpacity] = useState(1);
   const [warningMessage, setWarningMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [adsTotal, setAdsTotal] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
 
   const query = useQueryString();
   const initialQuery = (value) => {
@@ -50,12 +52,13 @@ function Ads() {
       let api = OlxAPI();
       const json = await api.getAds({
         sort: "desc",
-        limit: 9,
+        limit: 6,
         q,
         cat,
         state,
       });
       setAdList(json.ads);
+      setAdsTotal(json.total);
       if (adList.length === 0) {
         setWarningMessage("Nenhum resultado encontrado!");
       }
@@ -88,6 +91,14 @@ function Ads() {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    if (adList.length > 0) {
+      setPageCount(Math.ceil(adsTotal / adList.length));
+    } else {
+      setPageCount(0);
+    }
+  }, [adList.length, adsTotal]);
+
   const handleStateOption = () => {
     return stateList.map((item, key) => (
       <option key={`stateList-${key}`} value={item.name}>
@@ -114,6 +125,14 @@ function Ads() {
       <AdItem key={`adList-${key}`} data={item} />
     ));
   };
+
+  console.log("Pagination +>", pageCount);
+
+  let pagination = [];
+  for (let i = 1; i < pageCount; i++) {
+    console.log("for aqui =>", i);
+    pagination.push(i);
+  }
 
   return (
     <PageContainer>
@@ -148,6 +167,11 @@ function Ads() {
           )}
           <div className="list" style={{ opacity: resultOpacity }}>
             {handleSearchFiltered()}
+          </div>
+          <div className="pagination">
+            {pagination.map((item, key) => (
+              <div className="pageItem">{item}</div>
+            ))}
           </div>
         </div>
       </PageArea>
