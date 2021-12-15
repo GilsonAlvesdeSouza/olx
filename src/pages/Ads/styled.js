@@ -88,7 +88,7 @@ export const PageArea = styled.div`
       margin: 10px 0;
 
       .pageItem {
-        width: 60px;
+        width: auto;
         height: 30px;
         border: 1px solid #000;
         display: flex;
@@ -97,8 +97,32 @@ export const PageArea = styled.div`
         font-size: 0.875rem;
         cursor: pointer;
         margin-right: 5px;
-        margin-bottom: 5px;
-        padding: 5px;
+        /* margin-bottom: 5px; */
+        padding: 5px 10px;
+        border-radius: 5px;
+
+        :hover {
+          border: 1px solid #999;
+          color: #999777;
+        }
+      }
+
+      input {
+        width: 100px !important;
+        text-align: center;
+      }
+    }
+
+    .totalPage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+
+      span {
+        font-size: 0.8rem;
+        font-weight: bolder;
       }
     }
   }

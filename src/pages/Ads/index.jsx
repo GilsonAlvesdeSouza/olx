@@ -17,6 +17,7 @@ function Ads() {
   const [loading, setLoading] = useState(true);
   const [adsTotal, setAdsTotal] = useState(0);
   const [pageCount, setPageCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(1);
 
   const query = useQueryString();
   const initialQuery = (value) => {
@@ -25,6 +26,45 @@ function Ads() {
   const [q, setQ] = useState(initialQuery("q"));
   const [cat, setCat] = useState(initialQuery("cat"));
   const [state, setState] = useState(initialQuery("state"));
+
+  useEffect(() => {
+    if (adList.length > 0) {
+      setPageCount(Math.ceil(adsTotal / adList.length));
+    } else {
+      setPageCount(0);
+    }
+  }, [adsTotal]);
+
+  const getAdsList = async () => {
+    setWarningMessage("Carregando...");
+    setLoading(true);
+
+    let limit = 10;
+
+    let offset = (pageCurrent - 1) * limit;
+
+    let api = OlxAPI();
+    const json = await api.getAds({
+      sort: "desc",
+      limit,
+      q,
+      cat,
+      state,
+      offset,
+    });
+    setAdList(json.ads);
+    setAdsTotal(json.total);
+    if (adList.length === 0) {
+      setWarningMessage("Nenhum resultado encontrado!");
+    }
+    setResultOpacity(1);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setResultOpacity(0.3);
+    getAdsList();
+  }, [pageCurrent]);
 
   useEffect(() => {
     let queryString = [];
@@ -45,33 +85,13 @@ function Ads() {
       search: `?${queryString.join("&")}`,
     });
 
-    const getAddList = async () => {
-      setWarningMessage("Carregando...");
-      setLoading(true);
-
-      let api = OlxAPI();
-      const json = await api.getAds({
-        sort: "desc",
-        limit: 6,
-        q,
-        cat,
-        state,
-      });
-      setAdList(json.ads);
-      setAdsTotal(json.total);
-      if (adList.length === 0) {
-        setWarningMessage("Nenhum resultado encontrado!");
-      }
-      setResultOpacity(1);
-      setLoading(false);
-    };
-
     if (timer) {
       clearTimeout(timer);
     }
-    timer = setTimeout(getAddList, 2000);
+    timer = setTimeout(getAdsList, 2000);
     setResultOpacity(0.3);
-  }, [q, cat, state, history, adList.length]);
+    setPageCurrent(1);
+  }, [q, cat, state]);
 
   useEffect(() => {
     let api = OlxAPI();
@@ -90,14 +110,6 @@ function Ads() {
     };
     getCategories();
   }, []);
-
-  useEffect(() => {
-    if (adList.length > 0) {
-      setPageCount(Math.ceil(adsTotal / adList.length));
-    } else {
-      setPageCount(0);
-    }
-  }, [adList.length, adsTotal]);
 
   const handleStateOption = () => {
     return stateList.map((item, key) => (
@@ -126,13 +138,41 @@ function Ads() {
     ));
   };
 
-  console.log("Pagination +>", pageCount);
-
-  let pagination = [];
-  for (let i = 1; i < pageCount; i++) {
-    console.log("for aqui =>", i);
-    pagination.push(i);
-  }
+  const handleCountPage = (value) => {
+    switch (value) {
+      case "0":
+        setPageCurrent(1);
+        break;
+      case "-10":
+        if (pageCurrent > 1) setPageCurrent(pageCurrent - 10);
+        break;
+      case "-5":
+        if (pageCurrent > 1) setPageCurrent(pageCurrent - 5);
+        break;
+      case "-1":
+        if (pageCurrent > 1) setPageCurrent(pageCurrent - 1);
+        break;
+      case "+1":
+        pageCurrent + 1 < pageCount
+          ? setPageCurrent(pageCurrent + 1)
+          : setPageCurrent(pageCount);
+        break;
+      case "+5":
+        pageCurrent + 5 < pageCount
+          ? setPageCurrent(pageCurrent + 5)
+          : setPageCurrent(pageCount);
+        break;
+      case "+10":
+        pageCurrent + 10 < pageCount
+          ? setPageCurrent(pageCurrent + 10)
+          : setPageCurrent(pageCount);
+        break;
+      case "final":
+        setPageCurrent(pageCount);
+        break;
+      default:
+    }
+  };
 
   return (
     <PageContainer>
@@ -161,7 +201,9 @@ function Ads() {
         </div>
         <div className="rightSide">
           <h2>Resultados</h2>
-          {loading && <div className="listWarning">{warningMessage}</div>}
+          {loading && adList.length === 0 && (
+            <div className="listWarning">{warningMessage}</div>
+          )}
           {!loading && adList.length === 0 && (
             <div className="listWarning">{warningMessage}</div>
           )}
@@ -169,9 +211,46 @@ function Ads() {
             {handleSearchFiltered()}
           </div>
           <div className="pagination">
-            {pagination.map((item, key) => (
-              <div className="pageItem">{item}</div>
-            ))}
+            <button className="pageItem" onClick={() => handleCountPage("0")}>
+              Início
+            </button>
+            <button className="pageItem" onClick={() => handleCountPage("-10")}>
+              - 10
+            </button>
+            <button className="pageItem" onClick={() => handleCountPage("-5")}>
+              - 5
+            </button>
+            <button className="pageItem" onClick={() => handleCountPage("-1")}>
+              ⏪
+            </button>
+            <input
+              className="pageItem"
+              type="text"
+              value={pageCurrent}
+              disabled
+            />
+            <button className="pageItem" onClick={() => handleCountPage("+1")}>
+              ⏩
+            </button>
+            <button className="pageItem" onClick={() => handleCountPage("+5")}>
+              + 5
+            </button>
+            <button className="pageItem" onClick={() => handleCountPage("+10")}>
+              + 10
+            </button>
+            <button
+              className="pageItem"
+              onClick={() => handleCountPage("final")}
+            >
+              Fim
+            </button>
+          </div>
+          <div className="totalPage">
+            {pageCount <= 1 ? (
+              <span>{pageCount} página</span>
+            ) : (
+              <span>{pageCount} páginas</span>
+            )}
           </div>
         </div>
       </PageArea>
