@@ -3,7 +3,8 @@ import { FooterArea } from "./styled";
 function Footer() {
     return (
         <FooterArea>
-            footer ...
+            Todos os direitos resevados © <br />
+            OLX Clone
         </FooterArea>
     );
 }

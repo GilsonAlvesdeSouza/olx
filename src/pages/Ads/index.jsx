@@ -39,7 +39,7 @@ function Ads() {
     setWarningMessage("Carregando...");
     setLoading(true);
 
-    let limit = 10;
+    let limit = 9;
 
     let offset = (pageCurrent - 1) * limit;
 
