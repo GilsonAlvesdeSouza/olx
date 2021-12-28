@@ -8,6 +8,7 @@ import {
   AdPage,
   AddAd,
   Ads,
+  MyAcconunt,
 } from "./pages";
 import { RouteHandler } from "./components";
 function Routes(props) {
@@ -33,6 +34,9 @@ function Routes(props) {
       </RouteHandler>
       <RouteHandler private exact path="/post-an-ad">
         <AddAd />
+      </RouteHandler>
+      <RouteHandler private exact path="/my-account">
+        <MyAcconunt />
       </RouteHandler>
       <RouteHandler>
         <NotFound />
