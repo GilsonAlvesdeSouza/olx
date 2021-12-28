@@ -9,6 +9,7 @@ export const PageContainer = styled.div`
 
 export const PageTitle = styled.h1`
   font-size: 1.688rem;
+  padding: 10px;
 `;
 
 export const PageBody = styled.div``;

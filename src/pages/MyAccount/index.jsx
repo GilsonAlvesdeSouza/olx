@@ -41,10 +41,7 @@ function MyAcconunt() {
 
   const handleStateOption = () => {
     return stateList.map((item, key) => (
-      <option
-        value={item.name}
-        key={`stateList-${key}`}      
-      >
+      <option value={item.name} key={`stateList-${key}`}>
         {item.name}
       </option>
     ));
@@ -82,7 +79,6 @@ function MyAcconunt() {
         setConfirmPassword("");
         setColorMsg(null);
       }, 3000);
-    
     }
     setDisabled(false);
   };
@@ -92,6 +88,7 @@ function MyAcconunt() {
       <PageTitle>Minha Conta</PageTitle>
       <PageArea>
         <div className="user-data">
+          <h2>Meu cadastro</h2>
           <label className="area">
             <div className="area-titulo">Nome:</div>
             <div className="area-content">{user.name}</div>
@@ -112,7 +109,9 @@ function MyAcconunt() {
           </label>
         </div>
 
-        <div className="add-recents">...</div>
+        <div className="add-recents">
+          <PageTitle>Anúncios</PageTitle>
+        </div>
 
         <UIModal isOpen={modalOpen} onCloseModal={() => setModalOpen(false)}>
           <h2>Atualizar meus dados</h2>

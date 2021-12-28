@@ -7,8 +7,6 @@ export const ModalArea = styled.div`
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.6);
-
-  
 `;
 
 export const Modal = styled.div`
